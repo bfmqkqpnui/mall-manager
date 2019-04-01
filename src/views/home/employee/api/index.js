@@ -1,10 +1,10 @@
 import Vue from 'vue'
 
 export default {
-  login: params => {
+  queryAllByPage: params => {
     return Vue.axios.post(Vue.$SERVICE_BASE_URL + '/admin/loginServlet', params)
   },
-  loginByMock: params => {
-    return Vue.axios.post('/admin/login', params)
+  queryAllByMock: params => {
+    return Vue.axios.post('/emp/queryAll', params)
   }
 }

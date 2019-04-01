@@ -7,6 +7,7 @@ Vue.use(Router)
 const baseRoute = [
   {
     path: '/',
+    hidden: true,
     redirect: '/login'
   }
 ]
@@ -14,6 +15,7 @@ const baseRoute = [
 const notFoundRoute = [
   {
     path: '*',
+    hidden: true,
     meta: {
       notLoading: true,
       title: '404',

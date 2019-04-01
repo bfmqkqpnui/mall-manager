@@ -1,5 +1,6 @@
 export default [{
-		path: '/login',
+    path: '/login',
+    hidden: true,
 		meta: {
 			title: '登录',
 			notLoading: true,

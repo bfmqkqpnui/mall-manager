@@ -52,21 +52,28 @@
           if (valid) {
             this.logining = true
             let loginParams = { userName: this.ruleForm2.account, password: this.ruleForm2.checkPass }
-            api.login(loginParams).then(res => {
+            api.loginByMock(loginParams).then(res => {
               console.log("登陆请求返回结果：", res)
               this.logining = false
-              let { msg, result, data } = res.data
-              if (result !== 1) {
-                this.$message({
-                  message: msg,
-                  type: 'error'
-                });
+              if (res.data) {
+                let { msg, result, data } = res.data
+                if (result != 1) {
+                  this.$message({
+                    message: msg,
+                    type: 'error'
+                  })
+                } else {
+                  localStorage.setItem('userInfo', JSON.stringify(data))
+                  this.$router.push({path: '/employee' })
+                  // console.log("跳转页面")
+                }
               } else {
-                localStorage.setItem('userInfo', JSON.stringify(data))
-                // this.$router.push({ path: '/table' })
-                console.log("跳转页面")
+                this.$message({
+                  message: '查询失败',
+                  type: 'error'
+                })
               }
-            });
+            })
           } else {
             console.log('form表单校验失败')
             return false;
@@ -87,8 +94,9 @@
     bottom: 0;
     height: 100%;
     // background: url('../../../static/img/home/timg.jpg');
-    justify-content:center;//子元素水平居中
-    align-items:center;//子元素垂直居中
+    background-size: percentage;
+    justify-content:center; //子元素水平居中
+    align-items:center; //子元素垂直居中
     display:-webkit-flex;
   }
   .login-container {
@@ -102,7 +110,7 @@
     padding: 35px 35px 15px 35px;
     background: transparent;
     border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
+    box-shadow: 0 0 .25rem #cac6c6;
     .title {
       margin: 0px auto 40px auto;
       text-align: center;

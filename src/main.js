@@ -7,13 +7,18 @@ import ElementUI from 'element-ui'
 import axios from 'axios'
 
 import 'element-ui/lib/theme-chalk/index.css'
+import 'font-awesome/css/font-awesome.min.css'
+
+import '../static/font/aliFont.css'
 
 import './base'
+
+import utils from './utils'
 
 Vue.axios = Vue.prototype.axios = axios
 
 Vue.config.productionTip = false
-
+/**, { size: 'small', zIndex: 3000 } */
 Vue.use(ElementUI)
 
 /** 引入mock */

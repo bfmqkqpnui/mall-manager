@@ -1,14 +1,19 @@
 <template>
 	<el-row class="container">
 		<el-col :span="24" class="header">
-			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-				{{collapsed?'':sysName}}
+			<el-col :span="10" class="logo" :class="collapsed ? 'logo-collapse-width' : 'logo-width'">
+				{{collapsed ? '' : sysName}}
 			</el-col>
 			<el-col :span="10">
 				<div class="tools" @click.prevent="collapse">
 					<i class="fa fa-align-justify"></i>
 				</div>
 			</el-col>
+      <!-- <el-col :span="4">
+				<div class="tools" @click.prevent="collapse">
+					<i class="fa fa-align-justify"></i>
+				</div>
+			</el-col> -->
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
 					<span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
@@ -21,25 +26,25 @@
 			</el-col>
 		</el-col>
 		<el-col :span="24" class="main">
-			<aside :class="collapsed?'menu-collapsed':'menu-expanded'">
+			<aside :class="collapsed ? 'menu-collapsed' : 'menu-expanded'">
 				<!--导航菜单-->
-				<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
-					 unique-opened router v-show="!collapsed">
+				<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" v-if="!collapsed">
 					<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
 						<el-submenu :index="index+''" :key="index" v-if="!item.leaf">
 							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
-							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
+							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden"><i :class="child.iconCls" v-if="child.iconCls"></i>{{child.name}}</el-menu-item>
 						</el-submenu>
 						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path" :key="index"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
 					</template>
 				</el-menu>
+
 				<!--导航菜单-折叠后-->
-				<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
+				<ul class="el-menu el-menu-vertical-demo collapsed" v-else-if="collapsed" ref="menuCollapsed">
 					<li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" :key="index" class="el-submenu item">
 						<template v-if="!item.leaf">
-							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
-							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"> 
-								<li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">{{child.name}}</li>
+							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index, true)" @mouseout="showMenu(index, false)"><i :class="item.iconCls"></i></div>
+							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index, true)" @mouseout="showMenu(index, false)"> 
+								<li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path == child.path ? 'is-active' : ''" @click="$router.push(child.path)">{{child.name}}</li>
 							</ul>
 						</template>
 						<template v-else>
@@ -72,10 +77,12 @@
 </template>
 
 <script>
+  import utils from '../../utils'
+
 	export default {
 		data() {
 			return {
-				sysName:'VUEADMIN',
+				sysName:'太会玩管理系统',
 				collapsed:false,
 				sysUserName: '',
 				sysUserAvatar: '',
@@ -96,7 +103,7 @@
 				console.log('submit!');
 			},
 			handleopen() {
-				//console.log('handleopen');
+				console.log('handleopen');
 			},
 			handleclose() {
 				//console.log('handleclose');
@@ -114,33 +121,28 @@
 				}).catch(() => {
 
 				});
-
-
 			},
 			//折叠导航栏
-			collapse:function(){
-				this.collapsed=!this.collapsed;
+			collapse() {
+				this.collapsed = !this.collapsed;
 			},
 			showMenu(i,status){
 				this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
 			}
 		},
 		mounted() {
-			var user = sessionStorage.getItem('user');
+			var user = utils.dbGet('userInfo')
 			if (user) {
-				user = JSON.parse(user);
-				this.sysUserName = user.name || '';
-				this.sysUserAvatar = user.avatar || '';
+				this.sysUserName = user.userName || ''
+				this.sysUserAvatar = user.headUrl || ''
 			}
-
+      console.log("路由：", this.$router.options.routes)
 		}
 	}
 
 </script>
 
 <style scoped lang="scss">
-	@import '~scss_vars';
-	
 	.container {
 		position: absolute;
 		top: 0px;
@@ -149,7 +151,7 @@
 		.header {
 			height: 60px;
 			line-height: 60px;
-			background: $color-primary;
+			background: #20a0ff;
 			color:#fff;
 			.userinfo {
 				text-align: right;
