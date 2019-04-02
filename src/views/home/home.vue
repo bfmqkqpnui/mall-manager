@@ -102,13 +102,14 @@
 			onSubmit() {
 				console.log('submit!');
 			},
-			handleopen() {
-				console.log('handleopen');
+			handleopen(key, keyPath) {
+				// console.log('handleopen', key, keyPath);
 			},
 			handleclose() {
 				//console.log('handleclose');
 			},
 			handleselect: function (a, b) {
+				this.$router.push({path: a})
 			},
 			//退出登录
 			logout: function () {

@@ -36,4 +36,6 @@ import font-awesome/css/font-awesome.min.css
 # 地址：https://fontawesome.com/icons?d=gallery
 
 # 新增阿里的第三方icon图标
+
+# 对于报表echart的支持
 ```

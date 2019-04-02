@@ -14,7 +14,7 @@ export default [
   {
     path: '/',
     component: r => require.ensure([], () => r(require('./home.vue')), 'home'),
-    name: '系统管理',
+    name: '',
     iconCls: 'el-icon-menu',//图标样式class
     leaf: true,//只有一个节点
     children: [
@@ -24,11 +24,20 @@ export default [
   {
     path: '/',
     component: r => require.ensure([], () => r(require('./home.vue')), 'home'),
-    name: '系统管理',
+    name: '',
     iconCls: 'el-icon-menu',//图标样式class
     leaf: true,//只有一个节点
     children: [
-        { path: '/system', component: r => require.ensure([], () => r(require('./system/index.vue')), 'system'), name: '订单管理' },
+        { path: '/order', component: r => require.ensure([], () => r(require('./system/index.vue')), 'system'), name: '订单管理' },
+    ]
+  },
+  {
+    path: '/',
+    component: r => require.ensure([], () => r(require('./home.vue')), 'home'),
+    name: '报表管理',
+    iconCls: 'el-icon-menu',//图标样式class
+    children: [
+        { path: '/charts/line', component: r => require.ensure([], () => r(require('./charts/index.vue')), 'system'), name: '线性报表', iconCls: 'el-ali-thirdtubiao-zhexiantu'},
     ]
   },
 ]
