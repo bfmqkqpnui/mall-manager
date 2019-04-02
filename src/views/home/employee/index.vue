@@ -16,7 +16,7 @@
 		</el-col>
 
 		<!--列表-->
-		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
+		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange" @sort-change="sortChange" style="width: 100%;">
 			<el-table-column type="selection" width="55">
 			</el-table-column>
 			<el-table-column type="index" width="60">
@@ -42,7 +42,7 @@
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
 			<el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-			<el-pagination layout="total, sizes, prev, pager, next, jumper" @current-change="handleCurrentChange" background :page-sizes="[10, 20, 30, 50, 100]" :page-size="pageSize" :total="total" style="float:right;">
+			<el-pagination layout="total, sizes, prev, pager, next, jumper" @current-change="handleCurrentChange" @size-change="handleSizeChange" background :page-sizes="[10, 20, 30, 50, 100]" :page-size="pageSize" :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>
 
@@ -155,14 +155,24 @@
 			}
 		},
 		methods: {
+			// table排序
+			sortChange(column, prop, order) {
+				console.log("table sort:", column, prop, order)
+			},
 			//性别显示转换
 			formatSex: function (row, column) {
 				return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
       },
-      
+			
+			// 首页变动
 			handleCurrentChange(val) {
-				this.page = val;
-				this.getUsers();
+				this.pageNum = val
+				this.getUsers()
+			},
+			// 每页条数变动
+			handleSizeChange(val) {
+				this.pageSize = val
+				this.getUsers()
 			},
 			// 获取职员列表
 			getUsers() {
@@ -204,13 +214,13 @@
 				})
 			},
 			//显示编辑界面
-			handleEdit: function (index, row) {
+			handleEdit(index, row) {
         this.editFormVisible = true;
 				this.editForm = Object.assign({}, row);
         console.log(111, index, row, this.editFormVisible, this.editForm)
 			},
 			//显示新增界面
-			handleAdd: function () {
+			handleAdd() {
 				this.addFormVisible = true;
 				this.addForm = {
 					name: '',
@@ -221,7 +231,7 @@
 				}
 			},
 			//编辑
-			editSubmit: function () {
+			editSubmit() {
 				this.$refs.editForm.validate((valid) => {
 					if (valid) {
 						this.$confirm('确认提交吗？', '提示', {}).then(() => {
@@ -243,7 +253,7 @@
 				});
 			},
 			//新增
-			addSubmit: function () {
+			addSubmit() {
 				this.$refs.addForm.validate((valid) => {
 					if (valid) {
 						this.$confirm('确认提交吗？', '提示', {}).then(() => {
@@ -255,20 +265,21 @@
 								this.$message({
 									message: '提交成功',
 									type: 'success'
-								});
-								this.$refs['addForm'].resetFields();
-								this.addFormVisible = false;
-								this.getUsers();
-							});
-						});
+								})
+								this.$refs['addForm'].resetFields()
+								this.addFormVisible = false
+								this.getUsers()
+							})
+						})
 					}
-				});
+				})
 			},
 			selsChange: function (sels) {
+				console.log("选择变换：", sels)
 				this.sels = sels;
 			},
 			//批量删除
-			batchRemove: function () {
+			batchRemove() {
 				var ids = this.sels.map(item => item.id).toString()
 				this.$confirm('确认删除选中记录吗？', '提示', {
 					type: 'warning'
@@ -287,8 +298,11 @@
 				})
 			}
 		},
-		mounted() {
+		created() {
 			this.getUsers()
+		},
+		mounted() {
+			
 		}
 	}
 </script>
