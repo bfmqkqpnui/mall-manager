@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import axios from 'axios'
-import ECharts from 'vue-echarts'
+import ECharts from 'vue-echarts/components/ECharts.vue'
+import VueLazyLoad from 'vue-lazyload'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
@@ -16,16 +17,22 @@ import './base'
 
 import utils from './utils'
 
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
-import 'echarts-gl'
+//引入所有表 
+require('echarts')
 
 Vue.axios = Vue.prototype.axios = axios
 
 Vue.config.productionTip = false
 /**, { size: 'small', zIndex: 3000 } */
 Vue.use(ElementUI)
+
+// 注册组件
 Vue.component('v-chart', ECharts)
+
+Vue.use(VueLazyLoad,{
+  error: './assets/icon_banner_loading.png',
+  loading: './assets/icon_banner_loading.png'
+})
 
 /** 引入mock */
 require('./mock')

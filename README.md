@@ -38,4 +38,6 @@ import font-awesome/css/font-awesome.min.css
 # 新增阿里的第三方icon图标
 
 # 对于报表echart的支持
+
+# 可参考 https://echarts.baidu.com/echarts2/doc/doc.html  https://ecomfe.github.io/echarts-doc/public/cn/api.html#echarts
 ```

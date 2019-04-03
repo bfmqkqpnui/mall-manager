@@ -37,12 +37,13 @@ const resData = (params) => {
 const login = (params) => {
   console.log("登录入参：", params.body)
   let queryEmp = JSON.parse(params.body)
+  let name = '管理员'
   let baseEmployeeData = []
   baseEmployeeData.push({
     id: 1,
     userName: 'admin',
     password: '123456',
-    headUrl: Random.image('60x60', Random.color(), queryEmp.userName)
+    headUrl: Random.image('60x60', Random.color(), name.charAt(0))
   })
   for (let i = 0; i < 32; i++) {
     let userName = Random.cname()
@@ -50,7 +51,7 @@ const login = (params) => {
       id: i + 2,
       userName: userName,
       password: Random.integer(100000,999999),
-      headUrl: Random.image('60x60', Random.color(), userName)
+      headUrl: Random.image('60x60', Random.color(), userName.charAt(0))
     })
   }
   // console.log("随机数据：", JSON.stringify(baseEmployeeData))
