@@ -82,6 +82,40 @@ const login = (params) => {
   }
 }
 
+// 生成订单
+const orderList = (params) => {
+  let param = JSON.parse(params.body)
+  console.log("查询订单：", param.pageNum, param.pageSize, param.name)
+  let orders = []
+  let pattern = /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/
+  for (let i = 0; i < param.pageSize; i++) {
+    let time = Random.datetime('yyyyMMddHHmmss')
+    orders.push(
+      {
+        orderId: time + Random.integer(10, 99),
+        orderStatus: Random.integer(1, 7),
+        orderType: Random.integer(1, 3),
+        orderTime: time.replace(pattern, '$1-$2-$3 $4:$5:$6'),
+        orderAmount: Number(Random.float(2, 1258, 2)).toFixed(2),
+        orderRealAmount: Number(Random.float(2, 1258, 2)).toFixed(2)
+    })
+  }
+
+  let data = {
+    total: 1258,
+    pageNum: param.pageNum,
+    pageSize: param.pageSize,
+    orderList: orders
+  }
+  return {
+    result: '00100000',
+    msg: '',
+    data: data
+  }
+}
+
 // Mock.mock( url, post/get , 返回的数据)
 Mock.mock('/emp/queryAll', 'post', resData)
 Mock.mock('/admin/login', 'post', login)
+// 查询订单列表数据
+Mock.mock('/order/queryAll', 'post', orderList)

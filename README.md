@@ -40,4 +40,10 @@ import font-awesome/css/font-awesome.min.css
 # 对于报表echart的支持
 
 # 可参考 https://echarts.baidu.com/echarts2/doc/doc.html  https://ecomfe.github.io/echarts-doc/public/cn/api.html#echarts
+
+# 加入Vue-Quill-Editor富文本编辑器
+# 下载Vue-Quill-Editor
+npm install vue-quill-editor --save
+# 下载quill（Vue-Quill-Editor需要依赖）
+npm install quill --save
 ```
