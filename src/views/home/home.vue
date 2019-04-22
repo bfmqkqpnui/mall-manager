@@ -4,12 +4,7 @@
 			<el-col :span="10" class="logo" :class="collapsed ? 'logo-collapse-width' : 'logo-width'">
 				{{collapsed ? '' : sysName}}
 			</el-col>
-			<el-col :span="10">
-				<div class="tools" @click.prevent="collapse">
-					<i class="fa fa-align-justify"></i>
-				</div>
-			</el-col>
-      <!-- <el-col :span="4">
+			<!-- <el-col :span="10">
 				<div class="tools" @click.prevent="collapse">
 					<i class="fa fa-align-justify"></i>
 				</div>
@@ -29,17 +24,17 @@
 			<aside :class="collapsed ? 'menu-collapsed' : 'menu-expanded'">
 				<!--导航菜单-->
 				<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" v-if="!collapsed">
-					<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-						<el-submenu :index="index+''" :key="index" v-if="!item.leaf">
+					<template v-for="(item,index) in menuList">
+						<!-- <el-submenu :index="index + ''" :key="index" v-if="!item.leaf">
 							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
-							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden"><i :class="child.iconCls" v-if="child.iconCls"></i>{{child.name}}</el-menu-item>
-						</el-submenu>
-						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path" :key="index"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
+							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"><i :class="child.iconCls" v-if="child.iconCls"></i>{{child.name}}</el-menu-item>
+						</el-submenu> -->
+						<el-menu-item :index="item.path" :key="index"><i :class="item.icon ? item.icon : 'el-icon-menu'"></i>{{item.name}}</el-menu-item>
 					</template>
 				</el-menu>
 
 				<!--导航菜单-折叠后-->
-				<ul class="el-menu el-menu-vertical-demo collapsed" v-else-if="collapsed" ref="menuCollapsed">
+				<!-- <ul class="el-menu el-menu-vertical-demo collapsed" v-else-if="collapsed" ref="menuCollapsed">
 					<li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" :key="index" class="el-submenu item">
 						<template v-if="!item.leaf">
 							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index, true)" @mouseout="showMenu(index, false)"><i :class="item.iconCls"></i></div>
@@ -53,7 +48,7 @@
 							</li>
 						</template>
 					</li>
-				</ul>
+				</ul> -->
 			</aside>
 			<section class="content-container">
 				<div class="grid-content bg-purple-light">
@@ -78,11 +73,11 @@
 
 <script>
   import utils from '../../utils'
-
+  import api from './api'
 	export default {
 		data() {
 			return {
-				sysName:'太会玩管理系统',
+				sysName:'XXX管理系统',
 				collapsed:false,
 				sysUserName: '',
 				sysUserAvatar: '',
@@ -95,7 +90,8 @@
 					type: [],
 					resource: '',
 					desc: ''
-				}
+        },
+        menuList: []
 			}
 		},
 		methods: {
@@ -130,7 +126,18 @@
 			showMenu(i,status){
 				this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
 			}
-		},
+    },
+    created() {
+      let params = {
+        roleId : 1234
+      }
+      api.queryAllMenuByMock(params).then(res => {
+        console.log("菜单列表：", res)
+        if (res.data.result == "00100000") {
+          this.menuList = res.data.data
+        }
+      })
+    },
 		mounted() {
 			var user = utils.dbGet('userInfo')
 			if (user) {
@@ -171,6 +178,7 @@
 				}
 			}
 			.logo {
+        text-align: center;
 				//width:230px;
 				height:60px;
 				font-size: 22px;
@@ -208,7 +216,10 @@
 			position: absolute;
 			top: 60px;
 			bottom: 0px;
-			overflow: hidden;
+      overflow: hidden;
+      .el-menu-vertical-demo{
+        overflow-y: auto;
+      }
 			aside {
 				flex:0 0 230px;
 				width: 230px;
@@ -216,7 +227,10 @@
 				// top: 0px;
 				// bottom: 0px;
 				.el-menu{
-					height: 100%;
+          height: 100%;
+          .el-menu-item {
+            text-align: center;
+          }
 				}
 				.collapsed{
 					width:60px;

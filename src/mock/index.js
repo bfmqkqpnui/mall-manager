@@ -114,8 +114,24 @@ const orderList = (params) => {
   }
 }
 
+// 获取菜单列表数据
+const menuList = (params) => {
+  let param = JSON.parse(params.body)
+  console.log("查询菜单列表数据的角色编号为：", param.roleId)
+  let list = [{index: 1, path: '/dashboard', name: '欢迎页面', icon: 'el-ali-thirdhome'}]
+  list.push({index: 2, path: '/employee', name: '职员管理', icon: ''})
+  list.push({index: 3, path: '/system', name: '系统管理', icon: ''})
+  list.push({index: 4, path: '/about', name: '关于我们', icon: ''})
+  return {
+    result: '00100000',
+    msg: '',
+    data: list
+  }
+}
 // Mock.mock( url, post/get , 返回的数据)
 Mock.mock('/emp/queryAll', 'post', resData)
 Mock.mock('/admin/login', 'post', login)
 // 查询订单列表数据
 Mock.mock('/order/queryAll', 'post', orderList)
+// 查询当前用户的菜单列表
+Mock.mock('/menu/queryAll', 'post', menuList)
