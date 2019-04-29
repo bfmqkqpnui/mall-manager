@@ -64,7 +64,7 @@
                   })
                 } else {
                   localStorage.setItem('userInfo', JSON.stringify(data))
-                  this.$router.push({path: '/employee' })
+                  this.$router.push({path: '/dashboard' })
                   // console.log("跳转页面")
                 }
               } else {
