@@ -128,6 +128,61 @@ const menuList = (params) => {
     data: list
   }
 }
+
+// 获取人数
+const person = () => {
+  let data = {
+    total: Random.integer(11111111, 999999999),
+    yestoday: Random.integer(1111, 99999),
+    before7: Random.integer(7777, 999999),
+    before30: Random.integer(300000, 99999999)
+  }
+  return {
+    result: '00100000',
+    msg: '',
+    data: data
+  }
+}
+
+// 获取订单数
+const order = () => {
+  let user = {
+    total: Random.integer(1000000, 99999999),
+    yestoday: Random.integer(100, 999),
+    before7: Random.integer(1000, 9999),
+    before30: Random.integer(50000, 999999)
+  }
+  return {
+    result: '00100000',
+    msg: '',
+    data: user
+  }
+}
+
+// 消息推送
+const sendMessage = () => {
+  let msg = {
+    title: '微信推送消息数 TOP 10',
+    typeValue: ['发送消息数', '接收消息数'],
+    list: []
+  }
+  for (let i = Random.integer(5, 12); i >= 0; i--) {
+    let nickname = Random.cname();
+    let recv = Random.integer(1000000, 9999999);
+    let send = Random.integer(5000000, 9999999);
+    let data = {
+      nickname,recv,send
+    }
+    msg.list.push(data)
+  }
+  return {
+    result: '00100000',
+    msg: '',
+    data: msg
+  }
+}
+
+
 // Mock.mock( url, post/get , 返回的数据)
 Mock.mock('/emp/queryAll', 'post', resData)
 Mock.mock('/admin/login', 'post', login)
@@ -135,3 +190,10 @@ Mock.mock('/admin/login', 'post', login)
 Mock.mock('/order/queryAll', 'post', orderList)
 // 查询当前用户的菜单列表
 Mock.mock('/menu/queryAll', 'post', menuList)
+
+// 模拟获取当前总会员人数信息
+Mock.mock('/member/queryTotal', 'post', person)
+// 模拟获取当前总订单数信息
+Mock.mock('/order/queryTotal', 'post', order)
+// 模拟获取微信消息推送数据
+Mock.mock('/message/queryTotal', 'post', sendMessage)

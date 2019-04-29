@@ -4,6 +4,7 @@ let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
 
 let APP_ID = ''
 const SERVICE_BASE_URL = '/h5_api' // '/h5_api' // '/h5_gateway'
+const SYSTEMNAME = 'XXXX'
 
 switch (location.host) {
   case '10.199.5.19:8899': // 测试环境
@@ -14,4 +15,5 @@ switch (location.host) {
 
 export default {
   SERVICE_BASE_URL, // 接口base地址
+  SYSTEMNAME
 }

@@ -33,7 +33,7 @@
 			</el-table-column>
       <el-table-column prop="orderRealAmount" label="实际金额" width="180">
 			</el-table-column>
-			<el-table-column label="操作" width="150">
+			<el-table-column label="操作" fixed="right" width="200">
 				<template slot-scope="scope">
 					<el-button size="small" type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 					<el-button type="danger" size="small" icon="el-icon-delete" @click="handleDel(scope.$index, scope.row)">删除</el-button>

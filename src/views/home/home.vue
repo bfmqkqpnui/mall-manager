@@ -77,7 +77,7 @@
 	export default {
 		data() {
 			return {
-				sysName:'XXX管理系统',
+				sysName: this.$SYSTEMNAME + '管理系统',
 				collapsed:false,
 				sysUserName: '',
 				sysUserAvatar: '',

@@ -29,8 +29,8 @@
             class='link-type'
             href='https://wallstreetcn.com'
             target='_blank'
-          >XXX管理系统</a></div>
-        <div class="bullshit__headline">{{ message }}</div>
+          >{{systemName}}管理系统</a></div>
+        <div class="bullshit__headline" v-text="losterSay"></div>
         <div class="bullshit__info">请检查您输入的网址是否正确，请点击以下按钮返回主页</div>
         <a
           href="/dashboard"
@@ -45,7 +45,10 @@
 export default {
   computed: {
     message() {
-      return "特朗普说这个页面你不能进......";
+      return {
+        systemName: this.$SYSTEMNAME,
+        losterSay: "特朗普说这个页面你不能进......"
+      }
     }
   }
 };

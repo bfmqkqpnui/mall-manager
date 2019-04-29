@@ -7,7 +7,7 @@ export default [
     leaf: true,
     children: [
         // { path: '/main', component: Main, name: '主页', hidden: true },
-        { path: '/dashboard', component: r => require.ensure([], () => r(require('./welcome/index.vue')), 'employee'), name: '欢迎页面', iconCls: 'el-ali-thirdhome'},
+        { path: '/dashboard', component: r => require.ensure([], () => r(require('./welcome/index.vue')), 'employee'), name: '应用概况', iconCls: 'el-ali-thirdhome'},
         // { path: '/form', component: Form, name: 'Form' },
         // { path: '/user', component: user, name: '列表' },
     ]
